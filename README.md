@@ -43,7 +43,7 @@ Framework supports parallel test execution. By default, 3 features can be run si
 * To run specific tests from IDE, right click on the runners class (like LoginFeatureRunner) and press Run
 
 ### Generate test report
-Allure framework is used for reporting. 
+Allure framework is used for reporting. For failed test screenshot is attached to report.
 * generate report with gradle:
 ```
 > gradle allureReport
