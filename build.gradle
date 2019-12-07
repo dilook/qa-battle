@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.8.1'
+    id 'checkstyle'
+}
+
+group 'com.qapropeller'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+allure {
+    version = '2.8.1'
+    aspectjweaver = true
+    useCucumberJVM {
+        version = '2.8.1'
+    }
+}
+
+project.ext {
+    cucumberVersion = '4.7.2'
+}
+
+dependencies {
+    compile group: 'com.codeborne', name: 'selenide', version: '5.3.1'
+    compile group: 'io.qameta.allure', name: 'allure-cucumber4-jvm', version: '2.13.0'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
+    testImplementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.1'
+}
+
+checkstyle {
+    toolVersion '8.25'
+    checkstyleTest.enabled = false
+    ignoreFailures = false
+    configFile file("${project.rootDir}/checkstyle.xml")
+}
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+test {
+    scanForTestClasses = false
+    maxParallelForks = 3
+    forkEvery = 1
+    useJUnit()
+    testLogging.showStandardStreams = true
+    filter {
+        includeTestsMatching "runners.*FeatureRunner"
+    }
+}
